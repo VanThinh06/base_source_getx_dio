@@ -9,6 +9,8 @@ class LoginController extends GetxController {
   // is checkbox true or false
   RxBool isCheckBox = true.obs;
 
+  //
+
   @override
   void onInit() {
     // TODO: implement onInit

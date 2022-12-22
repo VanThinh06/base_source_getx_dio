@@ -24,19 +24,11 @@ mixin ApiErrorHandler {
               break;
             case DioErrorType.response:
               switch (error.response!.statusCode) {
-                case 404:
-                case 500:
-                case 503:
-                  errorDescription = error.response;
-                  break;
-                default:
-                  final Errors errors = Errors.fromJson(error.response!.data);
-                  if (errors.message != '') {
-                    errorDescription = errors.message;
-                  } else {
-                    errorDescription =
-                        'Failed to load data - status code: ${error.response!.statusCode}';
-                  }
+                   message = _handleError(
+        dioError.response?.statusCode,
+        dioError.response?.data,
+      );
+      break;
               }
               break;
             case DioErrorType.sendTimeout:
@@ -66,4 +58,26 @@ mixin ApiErrorHandler {
     // );
     return errorDescription;
   }
+
+  String _handleError(int? statusCode, dynamic error) {
+  switch (statusCode) {
+    case 400:
+      return 'Bad request';
+    case 401:
+      return 'Unauthorized';
+    case 403:
+      return 'Forbidden';
+    case 404:
+      return error['errorDescription'];
+    case 500:
+      return 'Internal server error';
+    case 502:
+      return 'Bad gateway';
+    default:
+      return 'Oops something went wrong';
+  }
 }
+@override
+  String toString() => errorDescription;
+}
+
