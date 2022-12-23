@@ -1,7 +1,5 @@
-import 'package:bytehr22/app_binding.dart';
 import 'package:bytehr22/routes/app_pages.dart';
 import 'package:bytehr22/routes/routes_paths/splash_routes.dart';
-import 'package:bytehr22/views/auth/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: SplashRoutes.LOGIN_PAGE,
+      initialRoute: SplashRoutes.SPLASH,
       getPages: AppPages.listPage,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
@@ -35,7 +33,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
     );
   }
 }

@@ -27,25 +27,25 @@ class ErrorResponse {
 /// message : "The last name field is required."
 
 class Errors {
-  late String _code;
+  // late String _code;
   late String _message;
 
-  String get code => _code;
+  // String get code => _code;
   String get message => _message;
 
-  Errors({required String code, required String message}) {
-    _code = code;
+  Errors({required String message}) {
+    // _code = code;
     _message = message;
   }
 
   Errors.fromJson(dynamic json) {
-    _code = json['code'].toString();
+    // _code = json['code'].toString();
     _message = json['message'].toString();
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['code'] = _code;
+    // map['code'] = _code;
     map['message'] = _message;
     return map;
   }

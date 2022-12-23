@@ -10,16 +10,13 @@ class AuthApi {
 
   AuthApi({required this.dioClient});
 
-  Future<ApiResponse> signin({
-    required LoginRequest loginRequest,
-    required Function(LoginRequest auth) oSuccess,
-  }) async {
+  Future<ApiResponse> signin({required LoginRequest loginRequest}) async {
     try {
       final Response response =
           await dioClient.post(EndPoints.login, data: loginRequest.toJson());
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      return ApiResponse.withError(ApiErrorHandler);
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
 }

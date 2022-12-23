@@ -1,5 +1,6 @@
 import 'package:bytehr22/data/models/base_api/error_response.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 mixin ApiErrorHandler {
   static dynamic getMessage(dynamic error) {
@@ -24,11 +25,19 @@ mixin ApiErrorHandler {
               break;
             case DioErrorType.response:
               switch (error.response!.statusCode) {
-                   message = _handleError(
-        dioError.response?.statusCode,
-        dioError.response?.data,
-      );
-      break;
+                case 404:
+                case 500:
+                case 503:
+                  errorDescription = error.response;
+                  break;
+                default:
+                  final Errors errors = Errors.fromJson(error.response!.data);
+                  if (errors.message != '') {
+                    errorDescription = errors.message;
+                  } else {
+                    errorDescription =
+                        'Failed to load data - status code: ${error.response!.statusCode}';
+                  }
               }
               break;
             case DioErrorType.sendTimeout:
@@ -45,8 +54,12 @@ mixin ApiErrorHandler {
       errorDescription = 'is not a subtype of exception';
     }
 
+    print("error call api $errorDescription");
     // TODO: Edit alert.error
     // show errors
+    Get.showSnackbar(GetSnackBar(
+      message: errorDescription,
+    ));
     // Get.snackbar(
     //   "Hey i'm a Errors SnackBar!", // title
     //   errorDescription.toString(), // message
@@ -58,26 +71,4 @@ mixin ApiErrorHandler {
     // );
     return errorDescription;
   }
-
-  String _handleError(int? statusCode, dynamic error) {
-  switch (statusCode) {
-    case 400:
-      return 'Bad request';
-    case 401:
-      return 'Unauthorized';
-    case 403:
-      return 'Forbidden';
-    case 404:
-      return error['errorDescription'];
-    case 500:
-      return 'Internal server error';
-    case 502:
-      return 'Bad gateway';
-    default:
-      return 'Oops something went wrong';
-  }
 }
-@override
-  String toString() => errorDescription;
-}
-

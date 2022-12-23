@@ -1,6 +1,7 @@
 import 'package:bytehr22/data/local/shared_preferences/prefs_helper.dart';
 import 'package:bytehr22/data/network/api/login_api.dart';
 import 'package:bytehr22/data/network/remote/dio/dio_client.dart';
+import 'package:bytehr22/data/repository/auth_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,5 +20,7 @@ Future<void> setup() async {
   getIt.registerLazySingleton(() => AuthApi(dioClient: getIt<DioClient>()));
 
   // repository
-  // getIt.registerLazySingleton(() => );
+  getIt.registerLazySingleton(() => AuthRepository(authApi: getIt<AuthApi>()));
+
+  // getIt.registerFactoryAsync // khởi tạo dưới dạng bất đồng bộ
 }

@@ -2,7 +2,7 @@ class EndPoints {
   EndPoints._();
 
   // base URL
-  static const String baseUrl = "http://7697-116-110-123-146.ngrok.io/api/";
+  static const String baseUrl = "https://bc-apitest.azurewebsites.net/api";
 
   // connectTimeout
   // timeout in milliseconds for opening url
