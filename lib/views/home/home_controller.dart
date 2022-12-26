@@ -17,10 +17,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> logout() async {
-    final pref = await SharedPreferences.getInstance();
-    await pref.clear();
-
     Get.offAndToNamed(SplashRoutes.LOGIN_PAGE);
-    await getIt.reset(dispose: false);
+    // await getIt.reset(dispose: false);
   }
 }

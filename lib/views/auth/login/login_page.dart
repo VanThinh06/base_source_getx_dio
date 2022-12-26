@@ -1,6 +1,9 @@
 import 'package:bytehr22/base_widget/byte_button.dart';
+import 'package:bytehr22/base_widget/byte_text_field.dart';
 import 'package:bytehr22/utils/color_resources.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:bytehr22/utils/image_rource.dart';
+import 'package:bytehr22/utils/text_style.dart';
 import 'package:bytehr22/views/auth/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,33 +17,67 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          color: ColorResources.WHITE,
-          padding: const EdgeInsets.only(top: 45),
-          child: Column(
-            children: [
-              const Text("Byte Hr Mobile"),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width - 50,
-                  height: MediaQuery.of(context).size.width / 3,
-                  child: Image.asset(ImgResource.LOGO)),
-              // Form Login.
-              formLogin(),
+      body: SingleChildScrollView(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 30.h),
+            color: ColorResources.WHITE,
+            child: Column(
+              children: [
+                // logo
+                logoLogin(context),
 
-              // Button login.
-              BButton(
-                  title: 'Login',
-                  onClick: () {
-                    controller.signIn();
-                  })
-            ],
+                // Form Login.
+                formLogin(),
+
+                // Button login.
+                buttonLogin()
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  Widget logoLogin(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        SizedBox(
+            width: MediaQuery.of(context).size.width - 50,
+            height: MediaQuery.of(context).size.width / 2.5,
+            child: Image.asset(ImgResource.LOGO)),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Đăng nhập vào tài khoản",
+          style: textStyleSpan,
+        ),
+      ],
+    );
+  }
+
+  ///
+  ///
+  ///
+  Widget buttonLogin() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        BButton(
+            title: 'Đăng nhập',
+            onClick: () {
+              controller.signIn();
+            }),
+      ],
     );
   }
 
@@ -49,28 +86,61 @@ class LoginPage extends GetView<LoginController> {
   ///
   Widget formLogin() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              "Login ByteHR",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-            ),
-          ),
+          //
           TextFormField(
             controller: controller.controllerUser,
-            decoration: const InputDecoration(
-                hintText: 'User name', prefixIcon: Icon(Icons.person)),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 1),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide:
+                      BorderSide(color: ColorResources.PRIMARY, width: 1.0)),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(
+                  color: ColorResources.SECOND_TEXT,
+                  width: 1.0,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                borderSide: BorderSide(
+                  color: ColorResources.SECOND_TEXT,
+                ),
+              ),
+              hintText: 'Tên đăng nhập',
+              prefixIcon: Icon(Icons.person),
+            ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+
+          /// Password
           Obx(
             () => TextFormField(
               controller: controller.controllerPassword,
               obscureText: controller.isPassword.value,
               decoration: InputDecoration(
-                hintText: 'Password',
-                prefixIcon: const Icon(Icons.key),
+                contentPadding: const EdgeInsets.symmetric(vertical: 1),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide:
+                        BorderSide(color: ColorResources.PRIMARY, width: 1.0)),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: ColorResources.SECOND_TEXT,
+                    width: 1.0,
+                  ),
+                ),
+                hintText: 'Mật khẩu',
+                prefixIcon: Icon(Icons.key, color: ColorResources.PRIMARY),
+                prefixIconColor: ColorResources.PRIMARY,
                 suffixIcon: GestureDetector(
                   onTap: () {
                     controller.isPassword.value = !controller.isPassword.value;
@@ -82,6 +152,7 @@ class LoginPage extends GetView<LoginController> {
               ),
             ),
           ),
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -95,7 +166,9 @@ class LoginPage extends GetView<LoginController> {
                   },
                 ),
               ),
-              const Text('Remember account')
+              const Text(
+                'Lưu mật khẩu',
+              )
             ],
           ),
         ],

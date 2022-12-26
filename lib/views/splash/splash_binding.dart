@@ -1,4 +1,3 @@
-import 'package:bytehr22/views/home/home_controller.dart';
 import 'package:bytehr22/views/splash/splash_controller.dart';
 import 'package:get/get.dart';
 

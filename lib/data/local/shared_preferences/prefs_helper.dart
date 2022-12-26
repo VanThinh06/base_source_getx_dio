@@ -42,4 +42,22 @@ class PrefsHelper {
   String get getRefreshToken {
     return _prefs.getString(Preferences.refreshToken) ?? '';
   }
+
+  /// User:------------------------------------------------------------------
+  void setUser({required String user}) {
+    _prefs.setString(Preferences.user, user);
+  }
+
+  String get getUser {
+    return _prefs.getString(Preferences.user) ?? '';
+  }
+
+  /// PASSWORD:------------------------------------------------------------------
+  void setPassword({required String password}) {
+    _prefs.setString(Preferences.password, password);
+  }
+
+  String get getPassword {
+    return _prefs.getString(Preferences.password) ?? '';
+  }
 }

@@ -55,6 +55,9 @@ dependencies:
   # storage simple data, save simple data
   shared_preferences: ^2.0.15
 
+  # screen util fllow size device
+  flutter_screenutil: ^5.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

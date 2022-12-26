@@ -13,7 +13,7 @@ class LoginController extends GetxController {
   TextEditingController controllerPassword = TextEditingController();
 
   // is checkbox true or false
-  RxBool isCheckBox = false.obs;
+  late RxBool isCheckBox;
 
   // is obscure password
   RxBool isPassword = true.obs;
@@ -24,8 +24,13 @@ class LoginController extends GetxController {
   // auth
   AuthRepository authRepository = GetIt.I.get<AuthRepository>();
 
+  //
+  var prefAccount = getIt<PrefsHelper>();
+
   @override
   void onInit() {
+    isCheckBox = prefAccount.getRemember.obs;
+    getAccount();
     // TODO: implement onInit
     super.onInit();
   }
@@ -34,6 +39,7 @@ class LoginController extends GetxController {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    Get.delete<LoginController>();
   }
 
   void signIn() {
@@ -49,9 +55,52 @@ class LoginController extends GetxController {
       loginRequest: _loginRequest,
       onSuccess: (auth) {
         Get.offAndToNamed(SplashRoutes.HOME_PAGE);
-        getIt<PrefsHelper>().setRemember(status: isCheckBox.value);
+        rememberAccount();
+        getAccount();
       },
-      onError: (error) {},
+      onError: (error) {
+        print("error error1 $error");
+        setEmtyAccount();
+      },
     );
+  }
+
+  ///
+  /// remember account
+  ///
+  void rememberAccount() {
+    if (isCheckBox.isTrue) {
+      prefAccount.setRemember(status: isCheckBox.value);
+      prefAccount.setUser(user: controllerUser.text);
+      prefAccount.setPassword(password: controllerPassword.text);
+    } else {
+      setEmtyAccount();
+    }
+  }
+
+  ///
+  /// Emty account
+  ///
+  void setEmtyAccount() {
+    prefAccount.setRemember(status: false);
+    prefAccount.setUser(user: "");
+    prefAccount.setPassword(password: "");
+  }
+
+  ///
+  /// Get account
+  ///
+  void getAccount() {
+    if (prefAccount.getRemember) {
+      isCheckBox.isTrue;
+      controllerUser.text = prefAccount.getUser;
+      controllerPassword.text = prefAccount.getPassword;
+    } else {
+      print("abc2");
+      isCheckBox.isFalse;
+      prefAccount.setRemember(status: isCheckBox.isFalse);
+      controllerUser.text = "";
+      controllerPassword.text = "";
+    }
   }
 }

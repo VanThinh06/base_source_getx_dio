@@ -14,17 +14,17 @@ class AuthRepository {
     required Function(LoginRequest auth) onSuccess,
     required Function(dynamic error) onError,
   }) async {
-    final apiResponse = await authApi.signin(loginRequest: loginRequest);
-
-    if (apiResponse.response.statusCode! >= 200 &&
-        apiResponse.response.statusCode! <= 300) {
-      print("abc abc  ${apiResponse.response.data}");
-      // call back data success
-      // final LoginRequest loginRequest =
-      //     LoginRequest.fromJson(results as Map<String, dynamic>);
-      onSuccess(loginRequest);
-    } else {
-      onError(apiResponse.error);
+    try {
+      final apiResponse = await authApi.signin(loginRequest: loginRequest);
+      if (apiResponse.response.statusCode! >= 200 &&
+          apiResponse.response.statusCode! <= 300) {
+        // call back data success
+        // final LoginRequest loginRequest =
+        //     LoginRequest.fromJson(results as Map<String, dynamic>);
+        onSuccess(loginRequest);
+      }
+    } catch (e) {
+      onError(e);
     }
   }
 }
